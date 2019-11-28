@@ -85,23 +85,6 @@ open System
     let getBackwardPath (path:Path) =
         {StartNode = path.EndNode;TimeToTravel=path.TimeToTravel;EndNode=path.StartNode}
    
-    let trySetVehicleDirection (vehicle:Vehicle) =
-        match vehicle.Cargo with
-        | Some C ->
-            match C.Paths with
-            | H::_ ->
-                {
-                    vehicle with
-                    Tour = Some {GoPath = H; BackPath=(getBackwardPath H)};
-                    Position =Moving {Connection = H;RelativePosition=0};
-                    Cargo = Some {C with NodeLocation=None}
-                }
-            | [] -> vehicle
-        | _ -> vehicle
-    
-    let trySetVehiclesDirections (vehicles: Vehicle list) =
-        vehicles |> List.map (fun x -> trySetVehicleDirection x)
-        
 
     
     /// **Description**
